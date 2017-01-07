@@ -12,6 +12,14 @@ var models = require('./models'); ///needed to run the below
  -  sequelize model:create --name TodoItem --attributes 'task:string,done:boolean'
  -  sequelize db:migrate 
  */
+
+//step6: handlebars
+var exphbs = require('express-handlebars');
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
+app.set('view engine', 'handlebars');
+//step6: create the folders: views > layout > main.handlebars
+//https://github.com/ericf/express-handlebars
+
 //step3
 models.TodoItem.create({
     task: "Watch Rogue One",
@@ -57,14 +65,27 @@ TodoItem.sync({ force: true }).then(function() {
 //Step1
 app.get('/', function(req, res) {
     //grab all todos
-    res.send('ToDoList');
-})
+    //step4 -grab from table
+    // SELECT * FROM todoitems;
+
+    /*
+        models.TodoItem.findAll({}).then(
+            function(data) {
+                res.send(data); 
+            });*/
+    res.render('home')
+        //STEP 4: check on local host
+
+
+});
 
 //Step2: CONTROLLERS
 app.post('/todos/', function(req, res) {
     //add a new todo
     res.send('Add');
-})
+
+
+});
 
 //Step2: CONTROLLERS
 app.put('/todos/:id', function(req, res) {
